@@ -1,3 +1,5 @@
+# o modelo de domínio (Partes 2 e 4)
+
 from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date
