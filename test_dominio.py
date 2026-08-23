@@ -1,3 +1,5 @@
+# os testes (Parte 3)
+
 from datetime import date, timedelta
 import pytest
 from dominio import Bolsa, Requisicao, SemBolsaCompativel, Volume, reservar_para
