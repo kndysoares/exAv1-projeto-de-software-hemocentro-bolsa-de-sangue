@@ -1,5 +1,3 @@
-# Partes 1 e 5
-
 # Parte 1 — Classificação dos Conceitos
 
 | Conceito | Classificação | Justificativa (1 frase) |
