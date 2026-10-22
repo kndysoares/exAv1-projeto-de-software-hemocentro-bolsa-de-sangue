@@ -55,7 +55,7 @@ graph TD
             ClienteAggregate[Agregado Cliente / Veiculo / Placa]
             EstacionamentoAggregate[Agregado Estacionamento / Vaga]
             ReservaAggregate[Agregado Reserva]
-            TicketEntity[Entidade Ticket / Pagamento]
+            PagamentoAggregate[Agregado Pagamento]
             DomainServices[Domain Services - Regras Cruzadas]
         end
 
@@ -76,13 +76,17 @@ graph TD
     ServiceLayer --> DomainServices
     ServiceLayer --> ClienteAggregate
     ServiceLayer --> ReservaAggregate
+    ServiceLayer --> PagamentoAggregate
     ServiceLayer --> AbstractRepo
 
     DomainServices --> ClienteAggregate
     DomainServices --> EstacionamentoAggregate
     DomainServices --> ReservaAggregate
+    DomainServices --> PagamentoAggregate
 
     SqlRepo -.->|Implementa| AbstractRepo
     SqlRepo --> ORM
     ORM --> DB
 ```
+
+
