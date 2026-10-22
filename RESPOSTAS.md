@@ -27,3 +27,62 @@ A função `reservar_para` precisa analisar e ordenar uma coleção de instânci
 
 5. **Suponha que, no sistema legado, a ordem FEFO fosse obtida por um ORDER BY data_validade dentro do SQL. Qual regra de negócio deixaria de existir no código Python, e por que isso é um problema?**
 A regra de seleção FEFO com critério de desempate alfabético (R6) deixaria de existir na camada de domínio em Python. Isso é um problema porque vaza regras de negócio cruciais para a infraestrutura de banco de dados, impedindo testes de unidade em memória, acoplando a aplicação ao SQL e gerando os sintomas de rigidez, fragilidade e viscosidade.
+
+
+
+
+
+
+
+
+TESTE PARA OUTRO PROJETO:
+
+**Diagrama Arquitetural:**
+
+```mermaid
+graph TD
+    subgraph Driving_Adapters [Adaptadores Primarios Driving]
+        FlaskAPI[entrypoints/flask_app.py - Flask API]
+        TestRunner[tests/e2e e tests/integration]
+    end
+
+    subgraph Core [Nucleo da Aplicacao]
+        subgraph Ports_Entry [Portas de Entrada]
+            ServiceLayer[service_layer/services.py - Application Services]
+        end
+
+        subgraph Domain [Modelo de Dominio - Pure Python]
+            ClienteAggregate[Agregado Cliente / Veiculo / Placa]
+            EstacionamentoAggregate[Agregado Estacionamento / Vaga]
+            ReservaAggregate[Agregado Reserva]
+            TicketEntity[Entidade Ticket / Pagamento]
+            DomainServices[Domain Services - Regras Cruzadas]
+        end
+
+        subgraph Ports_Exit [Portas de Saida]
+            AbstractRepo[adapters/repository.py - AbstractRepository]
+        end
+    end
+
+    subgraph Driven_Adapters [Adaptadores Secundarios Driven]
+        SqlRepo[adapters/repository.py - SqlAlchemyRepository]
+        ORM[adapters/orm.py - Imperative Mapping e GUID]
+        DB[(SQLite Database)]
+    end
+
+    FlaskAPI --> ServiceLayer
+    TestRunner --> ServiceLayer
+    
+    ServiceLayer --> DomainServices
+    ServiceLayer --> ClienteAggregate
+    ServiceLayer --> ReservaAggregate
+    ServiceLayer --> AbstractRepo
+
+    DomainServices --> ClienteAggregate
+    DomainServices --> EstacionamentoAggregate
+    DomainServices --> ReservaAggregate
+
+    SqlRepo -.->|Implementa| AbstractRepo
+    SqlRepo --> ORM
+    ORM --> DB
+```
