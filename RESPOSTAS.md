@@ -54,7 +54,7 @@ graph TD
         subgraph Domain [Modelo de Dominio - Pure Python]
             ClienteAggregate[Agregado Cliente / Veiculo / Placa]
             EstacionamentoAggregate[Agregado Estacionamento / Vaga]
-            ReservaAggregate[Agregado Reserva]
+            ReservaAggregate[Agregado Reserva / Ticket]
             PagamentoAggregate[Agregado Pagamento]
             DomainServices[Domain Services - Regras Cruzadas]
         end
@@ -75,6 +75,7 @@ graph TD
     
     ServiceLayer --> DomainServices
     ServiceLayer --> ClienteAggregate
+    ServiceLayer --> EstacionamentoAggregate
     ServiceLayer --> ReservaAggregate
     ServiceLayer --> PagamentoAggregate
     ServiceLayer --> AbstractRepo
@@ -88,5 +89,3 @@ graph TD
     SqlRepo --> ORM
     ORM --> DB
 ```
-
-
