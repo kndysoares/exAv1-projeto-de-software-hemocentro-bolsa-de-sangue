@@ -164,6 +164,7 @@ A suíte completa de testes unitários, de repositório e E2E da API REST foi ex
 
  ### teste outro projeto:
 
+
  classDiagram
     %% Agregado Cliente / Veiculo
     class Cliente {
@@ -174,9 +175,9 @@ A suíte completa de testes unitários, de repositório e E2E da API REST foi ex
         +String email
         +List~Veiculo~ veiculos
         +EstrategiaDesconto estrategia_desconto
-        +cadastrar_veiculo(veiculo: Veiculo) Void
-        +remover_veiculo(placa: Placa) Void
-        +alterar_estrategia_desconto(nova_estrategia: EstrategiaDesconto) Void
+        +cadastrar_veiculo(veiculo: Veiculo) void
+        +remover_veiculo(placa: Placa) void
+        +alterar_estrategia_desconto(nova_estrategia: EstrategiaDesconto) void
         +calcular_valor_com_desconto(valor_base: float) float
     }
 
@@ -194,7 +195,7 @@ A suíte completa de testes unitários, de repositório e E2E da API REST foi ex
     %% Estrutura do Padrão GoF: Strategy
     class EstrategiaDesconto {
         <<interface>>
-        +calcular_desconto(valor_base: float)* float
+        +calcular_desconto(valor_base: float) float*
     }
 
     class SemDesconto {
@@ -225,9 +226,5 @@ A suíte completa de testes unitários, de repositório e E2E da API REST foi ex
     style SemDesconto fill:#e8f5e9,stroke:#388e3c,stroke-width:1px
     style DescontoMensalista fill:#e8f5e9,stroke:#388e3c,stroke-width:1px
     style DescontoVIP fill:#e8f5e9,stroke:#388e3c,stroke-width:1px
- 
- Por que compensa:
- 
- Coesão (SRP): Torna impossível existir um objeto Placa em estado sintaticamente inválido na memória da aplicação.
 
- Extensibilidade (OCP): Permite aceitar novos formatos de placa (Mercosul e Tradicional) de forma transparente sem que nenhuma linha de código da camada de serviço ou da entidade Cliente precise ser editada ou retestada.
+
