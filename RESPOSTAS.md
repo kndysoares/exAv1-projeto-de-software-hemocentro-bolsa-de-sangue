@@ -158,6 +158,73 @@ A suíte completa de testes unitários, de repositório e E2E da API REST foi ex
 ### 5. Análise do Custo da Refatoração(Trade-offs)Custo:
 
  Inclusão da execução de expressões regulares no método __post_init__ do Value Object.   
+
+
+
+
+ ### teste outro projeto:
+
+ classDiagram
+    %% Agregado Cliente / Veiculo
+    class Cliente {
+        +UUID id_cliente
+        +String nome
+        +String cpf
+        +String telefone
+        +String email
+        +List~Veiculo~ veiculos
+        +EstrategiaDesconto estrategia_desconto
+        +cadastrar_veiculo(veiculo: Veiculo) Void
+        +remover_veiculo(placa: Placa) Void
+        +alterar_estrategia_desconto(nova_estrategia: EstrategiaDesconto) Void
+        +calcular_valor_com_desconto(valor_base: float) float
+    }
+
+    class Veiculo {
+        +UUID id_veiculo
+        +Placa placa
+        +String tipo
+    }
+
+    class Placa {
+        +String numero
+        -_validar_formato(placa_str: String) bool
+    }
+
+    %% Estrutura do Padrão GoF: Strategy
+    class EstrategiaDesconto {
+        <<interface>>
+        +calcular_desconto(valor_base: float)* float
+    }
+
+    class SemDesconto {
+        +calcular_desconto(valor_base: float) float
+    }
+
+    class DescontoMensalista {
+        +calcular_desconto(valor_base: float) float
+    }
+
+    class DescontoVIP {
+        +calcular_desconto(valor_base: float) float
+    }
+
+    %% Relacionamentos do Domínio
+    Cliente "1" *-- "*" Veiculo : contem
+    Veiculo "1" *-- "1" Placa : possui
+
+    %% Relacionamentos do Padrão Strategy
+    Cliente "1" o-- "1" EstrategiaDesconto : usa (Contexto)
+    EstrategiaDesconto <|.. SemDesconto : implementa
+    EstrategiaDesconto <|.. DescontoMensalista : implementa
+    EstrategiaDesconto <|.. DescontoVIP : implementa
+
+    %% Destaques dos Participantes (Estilização)
+    style Cliente fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
+    style EstrategiaDesconto fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style SemDesconto fill:#e8f5e9,stroke:#388e3c,stroke-width:1px
+    style DescontoMensalista fill:#e8f5e9,stroke:#388e3c,stroke-width:1px
+    style DescontoVIP fill:#e8f5e9,stroke:#388e3c,stroke-width:1px
  
  Por que compensa:
  
