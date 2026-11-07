@@ -171,41 +171,5 @@ A suíte completa de testes unitários, de repositório e E2E da API REST foi ex
 
 teste
 
-classDiagram
-    %% Entidade do Domínio
-    class Veiculo {
-        +UUID id_veiculo
-        +Placa placa
-        +String tipo
-    }
 
-    class Placa {
-        +String numero
-    }
-
-    %% Estrutura do Padrão GoF: Factory Method
-    class CriadorVeiculo {
-        <<abstract>>
-        +criar_veiculo(placa: Placa) Veiculo*
-    }
-
-    class CriadorCarro {
-        +criar_veiculo(placa: Placa) Veiculo
-    }
-
-    class CriadorMoto {
-        +criar_veiculo(placa: Placa) Veiculo
-    }
-
-    %% Relacionamentos
-    Veiculo "1" *-- "1" Placa : possui
-    CriadorVeiculo <|-- CriadorCarro : herda
-    CriadorVeiculo <|-- CriadorMoto : herda
-    CriadorCarro ..> Veiculo : instancia
-    CriadorMoto ..> Veiculo : instancia
-
-    %% Destaques dos Participantes (Estilização)
-    style CriadorVeiculo fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    style CriadorCarro fill:#e8f5e9,stroke:#388e3c,stroke-width:1px
-    style CriadorMoto fill:#e8f5e9,stroke:#388e3c,stroke-width:1px
-    style Veiculo fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
+<img width="4032" height="2192" alt="image" src="https://github.com/user-attachments/assets/0ccd0804-1452-4cf2-90a9-bc72ca5c6a26" />
