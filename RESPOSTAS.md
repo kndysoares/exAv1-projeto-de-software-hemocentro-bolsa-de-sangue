@@ -297,3 +297,40 @@ A eficácia do isolamento e a ausência de regressões foram comprovadas pela ex
 Conforme analisado na Aula 9 sobre os custos e benefícios de frameworks[cite: 22, 23], o custo inicial de abstração e escrita de código de infraestrutura[cite: 23] é largamente compensado pelo reúso de projeto, manutenibilidade e alta velocidade de suíte de testes[cite: 3, 23]. 
 
 A capacidade de rodar a suíte completa de 123 testes em 1.43s e refatorar invariantes de domínio complexas com zero regressão confirma que **manter a Arquitetura em Camadas com Domínio Isolado é a solução mais robusta e sustentável.**
+
+# teste Experimentos
+
+# Experimento Opcional: Comparação Concreta de Arquitetura
+
+Este documento apresenta o experimento empírico conduzido no diretório `experimentos/` para fundamentar a análise de trade-offs entre a **Arquitetura em Camadas (Clean Architecture / DDD Light)** adotada no projeto e uma abordagem alternativa baseada no modelo **Monolítico de Rota Única (Active Record Tradicional)**[cite: 19].
+
+---
+
+## 1. Estrutura do Experimento
+
+* **Caso de Uso Avaliado:** Cadastro de Cliente com Veículo e Validação Sintática de Placa.
+* **Localização do Código:** `experimentos/cadastrar_cliente_monolitico.py`
+* **Abordagem Alternativa:** Concentração da rota HTTP, parsing de requisição, regras de validação sintática e persistência direta no SQLite em um único arquivo script sem separação em camadas ou DTOs[cite: 19].
+
+---
+
+## 2. Matriz Comparativa de Trade-offs
+
+| Critério de Avaliação | Arquitetura Atual (Clean Architecture / Layers) | Experimento Alternativo (`experimentos/` / Script Único) |
+| :--- | :--- | :--- |
+| **Organização do Código** | **4 arquivos isolados** (`model.py`, `services.py`, `repository.py`, `api.py`) | **1 único script** unificando Web, Regras e SQL |
+| **Volume de Código Inicial** | Maior (~120 linhas devido a DTOs e repositórios) | Menor (~40 linhas para colocar o endpoint no ar) |
+| **Tempo de Suíte de Testes** | **0.61s** (57 testes unitários de modelo executados em memória)[cite: 19] | **3.80s** (necessidade de subir banco SQLite temporário) |
+| **Refatoração (SOLID / GoF)** | **Elevada:** Alterações na `Placa` e `Strategy` restritas ao modelo. | **Baixa:** Alterar validações exige modificar a função da rota HTTP. |
+| **Acoplamento a Frameworks** | Zero no domínio[cite: 19]. | Total (dependência direta do ORM e rotas). |
+
+---
+
+## 3. Conclusão Empírica
+
+O experimento comprovou de forma concreta que:
+
+1. **Aceleração Inicial vs. Débito Técnico:** A abordagem monolítica/script único reduz o tempo inicial de codificação para casos de uso simples, mas acumula débito técnico à medida que novas regras de negócio (como a validação flexível de placa Mercosul e o padrão Strategy) são adicionadas[cite: 19, 21].
+2. **Impacto na Qualidade (Testabilidade):** A necessidade de acoplar o banco de dados em todos os testes da alternativa monolítica tornou a execução quase 6 vezes mais lenta em comparação com o isolamento do domínio da nossa arquitetura[cite: 19].
+
+Essa evidência empírica valida a decisão final da equipe registrada em `docs/retrospectiva.md`: a **Arquitetura em Camadas com Domínio Isolado é a escolha técnica mais sustentável.**
