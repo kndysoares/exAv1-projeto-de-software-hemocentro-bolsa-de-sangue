@@ -334,3 +334,8 @@ O experimento comprovou de forma concreta que:
 2. **Impacto na Qualidade (Testabilidade):** A necessidade de acoplar o banco de dados em todos os testes da alternativa monolítica tornou a execução quase 6 vezes mais lenta em comparação com o isolamento do domínio da nossa arquitetura[cite: 19].
 
 Essa evidência empírica valida a decisão final da equipe registrada em `docs/retrospectiva.md`: a **Arquitetura em Camadas com Domínio Isolado é a escolha técnica mais sustentável.**
+
+
+#teste texto
+
+cálculo por teste:Arquitetura Atual (tests/unit/test_model.py): 57 testes em 0.61s $\rightarrow$ ~10,7 ms por teste (execução pura na memória, sem I/O de disco ou HTTP).   Experimento Monolítico (experimentos/): 7 testes em 0.59s – 0.91s $\rightarrow$ ~84,3 ms a 130 ms por teste (cerca de 8x a 12x mais lento por caso de teste, pois exige instanciar o test_client() do Flask e criar tabelas SQLite no disco a cada execução). 
